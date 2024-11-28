@@ -159,7 +159,53 @@ void exercise2() {
 
     outFile.close();
 }
+// exercise 3
 
+long double sine_series(double x, int terms = 100) {
+    double result = 0.0;
+    double term = x;
+    int sign = 1;
+
+    for (int n = 1; n <= terms; n+= 2) {
+        result += sign * term;
+        sign *= -1;
+        term *= x * x / ((n + 1) + (n + 2));
+    }
+
+    return result;
+}
+double reduce_range(double x) {
+    return fmod(x + M_PI, 2 * M_PI) - M_PI;  // ensures x is in [-π, π]
+}
+
+double compute(double x) {
+    if (std::abs(x) < 1.9) {
+        return x - sine_series(x);
+    } else {
+        return x - std::sin(x);
+    }
+}
+void exercise3() {
+    std::cout << "Exercise 3: sine expansion\n";
+    
+    double x_start, x_end, step;
+    std::cout << "Enter start of range (x_start): ";
+    std::cin >> x_start;
+    std::cout << "Enter end of range (x_end): ";
+    std::cin >> x_end;
+    std::cout << "Enter step size: ";
+    std::cin >> step;
+
+    std::cout << std::fixed << std::setprecision(8);
+    std::cout << "\n   x\t\tf(x)\n";
+    std::cout << "-------------------------\n";
+
+    for (double x = x_start; x <= x_end; x += step) {
+        // setw doesnt change precision just the decimal points
+        std::cout << std::setw(8) << x << "\t" << compute(reduce_range(x)) << "\n"; 
+    }
+
+}
 
 
 int main() {
@@ -167,6 +213,7 @@ int main() {
         std::cout << "\nSelect and exercise (1-8, 0 to exit):\n";
         std::cout << "1. Decimal to Binary Conversion\n";
         std::cout << "2. Single, Doubl precision\n";
+        std::cout << "3. Sine Series Expansion\n";
     
 
         int choice;
@@ -175,6 +222,7 @@ int main() {
         switch (choice) {
             case 1: exercise1(); break;
             case 2: exercise2(); break;
+            case 3: exercise3(); break;
             case 0: std::cout << "Exiting...\n"; return 0;
             default: std::cout << "Invalid choice. Try again.\n";
         }
