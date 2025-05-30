@@ -19,6 +19,12 @@ int main() {
 
     glfwMakeContextCurrent(window);
 
+    // Set up orthographic projection to use pixel coordinates
+    glMatrixMode(GL_PROJECTION);
+    glLoadIdentity();
+    glOrtho(0, screenWidth, 0, screenHeight, -1, 1);
+    glMatrixMode(GL_MODELVIEW);
+
     while(!glfwWindowShouldClose(window)) {
         glClear(GL_COLOR_BUFFER_BIT);
 
